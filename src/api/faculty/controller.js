@@ -1,7 +1,7 @@
-import subjects from './model'
+import faculties from './model'
 
 export const addData = (req,res)=>{
-subjects.create(req.body,(err,result)=>{
+    faculties.create(req.body,(err,result)=>{
 if(err){
     res.send(err)
 }else{
@@ -11,7 +11,7 @@ if(err){
 }
 
 export const getData = (req,res)=>{
-    subjects.find(req.params.id,(err,result)=>{
+    faculties.find(req.params.id,(err,result)=>{
         if(err){
             res.send(err)
         }else{
@@ -21,7 +21,7 @@ export const getData = (req,res)=>{
 }
 
 export const update = (req,res)=>{
-    subjects.findByIdAndUpdate(req.params.id,req.body,{new :true},(err,result)=>{
+    faculties.findByIdAndUpdate(req.params.id,req.body,{new :true},(err,result)=>{
         if(err){
             res.send(err)
         }else{
@@ -31,20 +31,21 @@ export const update = (req,res)=>{
 }
 
 export const deleteData = (req,res)=>{
-    subjects.findByIdAndRemove(req.params.id,(err,result)=>{
+    faculties.findByIdAndRemove(req.params.id,(err,result)=>{
         if(err){
             res.send(err)
         }else{
             res.send(result)
         } 
     })
+// }
+// export const searchFaculty = (req, res) => {
+//     Faculties.find({code:req.params.code},(err, results) => {
+//       if (err) {
+//         res.send(err);
+//       } else {
+//         res.send(results);
+//       }
+//     })
+
 }
-export const searchSubject = (req, res) => {
-    subjects.find({code:req.params.code},(err, results) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(results);
-      }
-    })
-  }

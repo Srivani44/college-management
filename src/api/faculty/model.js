@@ -1,29 +1,30 @@
 import mongoose from 'mongoose'
 
-const facultiesSchema = new mongoose.Schema({
+const facultySchema = new mongoose.Schema({
+    userId:{
+    type:mongoose.SchemaTypes.ObjectId,
+    ref:'Users',
+    req:true
+    },
+
     name:{
         type:String,
-        required:true
+        required:true,
     },
-    gender:{
-        type:String,
-        required:true
-       
-    },
-    qualification:{
-        type:String,
-        required:true
-    },
-    designation:{
-        type:String,
-        required:true
-    },
-    YOE:{
-        type:String,
-        required:true
-    }
+    
+    employees:
+        {
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'emp'
+        },
+        
+        createdBy:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'Users',
+        req:true
+        }
 })
 
-const model = mongoose.model('faculties',facultiesSchema)
+const model = mongoose.model('faculties',facultySchema)
 
 export default model

@@ -1,11 +1,7 @@
-import Departments from './model';
+import marks from './model';
 
 export const create = (req, res) => {
-
-  const department = req.body;
-  department.createdBy = req.user.id;
-
-  Departments.create(req.body, (err, result) => {
+    marks.create(req.body, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -15,7 +11,7 @@ export const create = (req, res) => {
 }
 
 export const show = (req, res) =>
-  Departments.findById(req.params.id, (err, result) => {
+marks.findById(req.params.id, (err, result) => {
     if (err) {
       res.send(err);
     } else {
@@ -24,11 +20,11 @@ export const show = (req, res) =>
   })
 
 export const index = (req, res) =>
-  sendAllDepartments(res);
+  sendAllMarks(res);
 
-export const searchDepartment = (req, res) => {
+export const searchMarks = (req, res) => {
   console.log(req.query);
-  Departments.find({ name: { '$regex' : req.query.string, '$options' : 'i' }}).exec((err, results) => {
+  marks.find({ name: { '$regex' : req.query.string, '$options' : 'i' }}).exec((err, results) => {
     if (err) {
       res.send(err);
     } else {
@@ -38,7 +34,7 @@ export const searchDepartment = (req, res) => {
 }
 
 export const update = (req, res) => {
-  Departments.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err, updatedObj) => {
+    marks.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err, updatedObj) => {
     if (err) {
       res.send(err);
     } else {
@@ -48,7 +44,7 @@ export const update = (req, res) => {
 }
 
 export const destroy = (req, res) =>
-  Departments.findByIdAndRemove(req.params.id, (err, deletedObj) => {
+marks.findByIdAndRemove(req.params.id, (err, deletedObj) => {
     if (err) {
       res.send(err);
     }
@@ -57,9 +53,9 @@ export const destroy = (req, res) =>
     }
   }); 
 
-  const sendAllDepartments = (res) => {
-  Departments.find({})
-   .populate('faculty hod')
+  const sendAllMarks= (res) => {
+    marks.find({})
+    .populate('studentId subjectId acadamicYear')
   .then(results=>{
     res.send(results)
   })

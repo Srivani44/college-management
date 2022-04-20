@@ -1,24 +1,28 @@
 import {Router} from 'express'
+import { checkAuth } from '../helpers'
 
 import {
     addData,
-    getData,
+    show,
+    index,
     update,
-    deleteData
- 
+    deleteData,
+    searchFaculty
 
 } from './controller'
 
 const router = new Router()
 
-router.post('/',addData)
+router.post('/',checkAuth(true,['ADMIN']),addData)
 
-router.get('/',getData)
+router.get('/:id',checkAuth(true), show)
 
-router.put('/:id',update)
+router.get('/',checkAuth(true),index)
 
-router.delete('/:id',deleteData)
+router.put('/:id',checkAuth(true,['ADMIN']),update)
 
-// router.get('/search', searchFaculty)
+router.delete('/:id',checkAuth(true,['ADMIN']),deleteData)
+
+router.get('/search',checkAuth(true,['ADMIN']), searchFaculty)
 
 export default router

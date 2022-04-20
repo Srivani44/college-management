@@ -24,6 +24,5 @@ export default (apiRoot, routes) => {
   app.use(queryErrorHandler())
   app.use(bodyErrorHandler())
 
-
   return app
 }

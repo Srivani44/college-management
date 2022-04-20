@@ -1,13 +1,35 @@
+import { verifyToken } from '../helpers';
 import Students from './model';
+
 export const create = (req, res) => {
-  Students.create(req.body, (err, result) => {
+
+  // const userData = verifyToken(req);
+  // if(userData && userData.role === 'ADMIN'){
+
+    const student = req.body
+    // student.createdBy = req.user.id
+    
+    Students.create(req.body, (err, result) => {
+      if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      })
+  // }else{
+  //   res.send({error:"true",code:401,message:"Unauthorized access"})
+  //  }
+}
+
+export const myProfile = (req, res) =>
+  Students.findOne({userId:req.user.id}, (err, result) => {
     if (err) {
       res.send(err);
     } else {
+      console.log(result , req.user.id,'result')
       res.send(result);
     }
   })
-}
 
 export const show = (req, res) =>
   Students.findById(req.params.id, (err, result) => {
@@ -34,6 +56,26 @@ export const searchStudent = (req, res) => {
 
 export const update = (req, res) => {
   Students.findByIdAndUpdate(req.params.id, req.body, { new: true}, (err, updatedObj) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(updatedObj);
+    }
+  })
+}
+
+export const myUpdate = (req, res) => {
+  const updatedObj = {};
+ if(req.body.name){
+   updatedObj ['name']=req.body.name
+ }
+ if(req.body.email){
+   updatedObj ['email']=req.body.email
+ }
+ if(req.body.branch){
+  updatedObj ['branch']=req.body.branch
+}
+  Students.findOneAndUpdate({userId: req.user.id}, updatedObj, { new: true}, (err, updatedObj) => {
     if (err) {
       res.send(err);
     } else {

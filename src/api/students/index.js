@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { checkAuth } from '../helpers'
 
 import {
   create,
@@ -6,28 +7,30 @@ import {
   show,
   update,
   destroy,
-  searchStudent
+  searchStudent,
+  myProfile,
+  myUpdate
+
 } from './controller'
 
 const router = new Router()
 
-//POST Request http://localhost:8080/students
-router.post('/', create)
+router.post('/',/*checkAuth(true,['ADMIN'])*/create)
 
-//PUT Request http://localhost:8080/students/123
-router.put('/:id', update)
+router.put('/self-update',checkAuth(true),myUpdate)
 
-//GET Request http://localhost:8080/students/search
-router.get('/search', searchStudent)
+router.put('/:id',checkAuth(true,['ADMIN']),update)
 
-//GET Request http://localhost:8080/students
-router.get('/', index)
+//to check my profile
+router.get('/me',checkAuth(true),myProfile)
 
-//GET Request http://localhost:8080/students/123
-router.get('/:id', show)
+router.get('/search',checkAuth(true),searchStudent)
 
-//DELETE Request http://localhost:8080/students/123
-router.delete('/:id', destroy)
+router.get('/',/*checkAuth(true)*/index)
+
+router.get('/:id',checkAuth(true),show)
+
+router.delete('/:id'/*checkAuth(true,['ADMIN'])*/,destroy)
 
 
 export default router
